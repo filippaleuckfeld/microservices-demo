@@ -112,7 +112,7 @@
             "id": "BED1000",
             "name": "Bed",
             "description": "A confy bed",
-            "picture": "/static/img/products/bed.jpg",
+            "picture": "/static/img/products/bed.jpeg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 10,
