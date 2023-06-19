@@ -107,6 +107,18 @@
                 "nanos": 990000000
             },
             "categories": ["kitchen"]
+        },
+        {
+            "id": "BED1000",
+            "name": "Bed",
+            "description": "A confy bed",
+            "picture": "/static/img/products/bed.jpg",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 10,
+                "nanos": 10000000000
+            },
+            "categories": ["home"]
         }
     ]
 }
