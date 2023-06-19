@@ -116,7 +116,7 @@
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 10,
-                "nanos": 10000000000
+                "nanos": 990000000
             },
             "categories": ["home"]
         }
