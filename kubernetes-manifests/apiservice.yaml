@@ -15,8 +15,15 @@ spec:
         name: apiservice
     spec:
       containers:
-      - name: apiservice
+      - name: server
         image: apiservice
+        ports:
+        - containerPort: 9090
+        env:
+        - name: PORT
+          value: "9090"
+        - name: PRODUCT_CATALOG_SERVICE_ADDR
+          value: "productcatalogservice:3550"
 ---
 apiVersion: v1
 kind: Service
