@@ -27,8 +27,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 9090
+  - port: 80
     targetPort: 9090
-    nodePort: 9090
+    nodePort: 32540
   selector:
     name: apiservice
