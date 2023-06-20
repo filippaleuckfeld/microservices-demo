@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -15,6 +16,14 @@ import (
 type apiServer struct {
 	productCatalogSvcAddr string
 	productCatalogSvcConn *grpc.ClientConn
+}
+
+func mustMapEnv(target *string, envKey string) {
+	v := os.Getenv(envKey)
+	if v == "" {
+		panic(fmt.Sprintf("environment variable %q not set", envKey))
+	}
+	*target = v
 }
 
 func mustConnGRPC(ctx context.Context, conn **grpc.ClientConn, addr string) {
@@ -33,6 +42,7 @@ func mustConnGRPC(ctx context.Context, conn **grpc.ClientConn, addr string) {
 func main() {
 	ctx := context.Background()
 	svc := new(apiServer)
+	mustMapEnv(&svc.productCatalogSvcAddr, "PRODUCT_CATALOG_SERVICE_ADDR")
 	mustConnGRPC(ctx, &svc.productCatalogSvcConn, svc.productCatalogSvcAddr)
 
 	router := mux.NewRouter()
