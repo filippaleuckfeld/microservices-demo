@@ -37,15 +37,7 @@ kind: Deployment
 metadata:
   name: apiservice
 spec:
-  selector:
-    matchLabels:
-      app: apiservice
   template:
-    metadata:
-      labels:
-        app: apiservice
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: default
       securityContext:
