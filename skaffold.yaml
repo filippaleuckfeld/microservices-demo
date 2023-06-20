@@ -54,6 +54,9 @@ manifests:
   kustomize:
     paths:
     - kubernetes-manifests
+    rawYaml:
+    - ./kubernetes-manifests/apiservice.yaml
+    
 deploy:
   kubectl: {}
 # "gcb" profile allows building and pushing the images
