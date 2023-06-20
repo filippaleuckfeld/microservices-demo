@@ -115,9 +115,8 @@ build:
   artifacts:
     - image: apiservice
       context: src/apiservice
-      docker:
-        Dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - ./kubernetes-manifests/apiservice.yaml
 deploy:
-  kubectl:
-    manifests:
-      - ./kubernetes-manifests/apiservice.yaml
+  kubectl: {}
