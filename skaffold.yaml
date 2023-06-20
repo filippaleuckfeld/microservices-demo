@@ -44,8 +44,6 @@ build:
     context: src/frontend
   - image: adservice
     context: src/adservice
-  - image: apiservice
-    context: src/apiservice
   tagPolicy:
     gitCommit: {}
   local:
@@ -54,8 +52,6 @@ manifests:
   kustomize:
     paths:
     - kubernetes-manifests
-    rawYaml:
-    - ./kubernetes-manifests/apiservice.yaml
     
 deploy:
   kubectl: {}
@@ -110,3 +106,18 @@ manifests:
   - ./kubernetes-manifests/loadgenerator.yaml
 deploy:
   kubectl: {}
+---
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: apiservice
+build:
+  artifacts:
+    - image: apiservice
+      context: src/apiservice
+      docker:
+        Dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - ./kubernetes-manifests/apiservice.yaml
