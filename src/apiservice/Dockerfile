@@ -1,5 +1,5 @@
 # Start from the official Golang image with a specific version
-FROM golang:1.20.4 AS builder
+FROM golang:1.20.4-alpine@sha256:0a03b591c358a0bb02e39b93c30e955358dadd18dc507087a3b7f3912c17fe13 AS builder
 RUN apk add --no-cache ca-certificates git
 RUN apk add build-base
 
