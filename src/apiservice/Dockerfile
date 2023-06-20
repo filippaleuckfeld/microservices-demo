@@ -1,5 +1,5 @@
 # Start from the official Golang image with a specific version
-FROM golang:1.20.4
+FROM golang:1.20.4 AS server
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -12,10 +12,14 @@ RUN go mod download
 COPY . .
 
 # Build the Go application
-RUN go build -o main .
+ARG SKAFFOLD_GO_GCFLAGS
+RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o /apiservice .
+
+WORKDIR /src
+COPY --from=builder /apiservice ./server
 
 # Expose port 9090
 EXPOSE 9090
 
 # Set the entry point for the container
-CMD ["./main"]
+ENTRYPOINT ["/src/server"]
