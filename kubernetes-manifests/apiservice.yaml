@@ -1,98 +1,22 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: apiservice
-#   labels:
-#     name: apiservice
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       name: apiservice
-#   template:
-#     metadata:
-#       labels:
-#         name: apiservice
-#     spec:
-#       containers:
-#       - name: apiservice
-#         image: apiservice
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: apiservice
-#   labels:
-#     name: apiservice
-# spec:
-#   type: NodePort
-#   ports:
-#   - port: 80
-#     targetPort: 9090
-#     nodePort: 32540
-#   selector:
-#     name: apiservice
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apiservice
+  labels:
+    name: apiservice
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: apiservice
+      name: apiservice
   template:
     metadata:
       labels:
-        app: apiservice
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        name: apiservice
     spec:
-      serviceAccountName: default
-      securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
       containers:
-        - name: server
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-          image: apiservice
-          ports:
-          - containerPort: 9090
-          readinessProbe:
-            grpc:
-              port: 9090
-          livenessProbe:
-            grpc:
-              port: 9090
-          env:
-          - name: PORT
-            value: "9090"
-          - name: PRODUCT_CATALOG_SERVICE_ADDR
-            value: "productcatalogservice:3550"
-          # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
-          # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
-          # - name: ENV_PLATFORM
-          #   value: "aws"
-          - name: ENABLE_PROFILER
-            value: "0"
-          # - name: CYMBAL_BRANDING
-          #   value: "true"
-          # - name: FRONTEND_MESSAGE
-          #   value: "Replace this with a message you want to display on all pages."
-          resources:
-            requests:
-              cpu: 100m
-              memory: 64Mi
-            limits:
-              cpu: 200m
-              memory: 128Mi
+      - name: apiservice
+        image: apiservice
 ---
 apiVersion: v1
 kind: Service
@@ -108,3 +32,79 @@ spec:
     nodePort: 32540
   selector:
     name: apiservice
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: apiservice
+# spec:
+#   selector:
+#     matchLabels:
+#       app: apiservice
+#   template:
+#     metadata:
+#       labels:
+#         app: apiservice
+#       annotations:
+#         sidecar.istio.io/rewriteAppHTTPProbers: "true"
+#     spec:
+#       serviceAccountName: default
+#       securityContext:
+#         fsGroup: 1000
+#         runAsGroup: 1000
+#         runAsNonRoot: true
+#         runAsUser: 1000
+#       containers:
+#         - name: server
+#           securityContext:
+#             allowPrivilegeEscalation: false
+#             capabilities:
+#               drop:
+#                 - ALL
+#             privileged: false
+#             readOnlyRootFilesystem: true
+#           image: apiservice
+#           ports:
+#           - containerPort: 9090
+#           readinessProbe:
+#             grpc:
+#               port: 9090
+#           livenessProbe:
+#             grpc:
+#               port: 9090
+#           env:
+#           - name: PORT
+#             value: "9090"
+#           - name: PRODUCT_CATALOG_SERVICE_ADDR
+#             value: "productcatalogservice:3550"
+#           # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
+#           # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
+#           # - name: ENV_PLATFORM
+#           #   value: "aws"
+#           - name: ENABLE_PROFILER
+#             value: "0"
+#           # - name: CYMBAL_BRANDING
+#           #   value: "true"
+#           # - name: FRONTEND_MESSAGE
+#           #   value: "Replace this with a message you want to display on all pages."
+#           resources:
+#             requests:
+#               cpu: 100m
+#               memory: 64Mi
+#             limits:
+#               cpu: 200m
+#               memory: 128Mi
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: apiservice
+#   labels:
+#     name: apiservice
+# spec:
+#   type: NodePort
+#   ports:
+#   - port: 80
+#     targetPort: 9090
+#     nodePort: 32540
+#   selector:
+#     name: apiservice
