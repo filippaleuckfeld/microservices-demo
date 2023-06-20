@@ -100,16 +100,3 @@ spec:
   - name: http
     port: 80
     targetPort: 9090
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: apiservice-external
-spec:
-  type: LoadBalancer
-  selector:
-    app: apiservice
-  ports:
-  - name: http
-    port: 80
-    targetPort: 9090
