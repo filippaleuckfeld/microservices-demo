@@ -46,6 +46,8 @@ build:
     context: src/adservice
   - image: apiservice
     context: src/apiservice
+    docker:
+      dockerfile: Dockerfile
   tagPolicy:
     gitCommit: {}
   local:
