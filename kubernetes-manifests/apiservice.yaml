@@ -65,6 +65,12 @@ spec:
           image: apiservice
           ports:
           - containerPort: 9090
+          readinessProbe:
+            grpc:
+              port: 9090
+          livenessProbe:
+            grpc:
+              port: 9090
           env:
           - name: PORT
             value: "9090"
