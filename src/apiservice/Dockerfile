@@ -1,8 +1,10 @@
 # Start from the official Golang image with a specific version
-FROM golang:1.20.4 AS server
+FROM golang:1.20.4 AS builder
+RUN apk add --no-cache ca-certificates git
+RUN apk add build-base
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /src
 
 # Copy the Go module files and download dependencies
 COPY go.mod go.sum ./
