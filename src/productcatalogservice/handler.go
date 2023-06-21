@@ -86,6 +86,7 @@ func CreateProductHandler() http.HandlerFunc {
 		rw.WriteHeader(http.StatusCreated)
 		rw.Write([]byte("Added New Product"))
 		fmt.Println("Added products")
+		reloadCatalog = true
 		return
 	}
 }
