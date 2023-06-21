@@ -139,7 +139,7 @@ func main() {
 
 	log.Infof("starting grpc server at :%s", port)
 	run(port)
-	// select {}
+	select {}
 }
 
 func run(port string) string {
