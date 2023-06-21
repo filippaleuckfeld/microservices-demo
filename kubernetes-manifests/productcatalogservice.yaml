@@ -44,6 +44,9 @@ spec:
         image: productcatalogservice
         ports:
         - containerPort: 3550
+          name: grpc
+        - containerPort: 3560
+          name: rest-api
         env:
         - name: PORT
           value: "3550"
