@@ -49,7 +49,7 @@ func CreateProductHandler() http.HandlerFunc {
 		fmt.Println(products)
 		// Load existing products and append the data to product list
 		var catalog ProductsCatalog
-		data, err = ioutil.ReadFile("./data/products.json")
+		data, err = ioutil.ReadFile("products.json")
 		if err != nil {
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
@@ -70,7 +70,7 @@ func CreateProductHandler() http.HandlerFunc {
 			return
 		}
 		fmt.Println(updatedData)
-		err = ioutil.WriteFile("./data/products.json", updatedData, os.ModePerm)
+		err = ioutil.WriteFile("products.json", updatedData, os.ModePerm)
 		if err != nil {
 			fmt.Println("Could not write to file")
 			rw.WriteHeader(http.StatusInternalServerError)
