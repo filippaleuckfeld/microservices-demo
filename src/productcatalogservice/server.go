@@ -19,10 +19,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	//"github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net"
-	//"net/http"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -124,21 +124,25 @@ func main() {
 		}
 	}()
 
-	// router := mux.NewRouter()
-	// router.HandleFunc("/products", CreateProductHandler()).Methods("POST")
-	// server := http.Server{
-	// 	Addr:    ":3550",
-	// 	Handler: router,
-	// }
-	// server.ListenAndServe()
+	go func() {
+		router := mux.NewRouter()
+		router.HandleFunc("/products", CreateProductHandler()).Methods("POST")
+		server := http.Server{
+			Addr:    ":3560",
+			Handler: router,
+		}
+		server.ListenAndServe()
+	}()
 
-	if os.Getenv("PORT") != "" {
-		port = os.Getenv("PORT")
-	}
-	fmt.Println("Staring Product Catalog server on Port %s", port)
+	go func() {
+		if os.Getenv("PORT") != "" {
+			port = os.Getenv("PORT")
+		}
+		fmt.Println("Staring Product Catalog server on Port %s", port)
 
-	log.Infof("starting grpc server at :%s", port)
-	run(port)
+		log.Infof("starting grpc server at :%s", port)
+		run(port)
+	}()
 	select {}
 }
 
