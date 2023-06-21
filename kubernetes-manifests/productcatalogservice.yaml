@@ -40,11 +40,8 @@ spec:
             drop:
               - ALL
           privileged: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
         image: productcatalogservice
-        volumeMounts:
-        - mountPath: /products.json
-          name: products
         ports:
         - containerPort: 3550
           name: grpc
