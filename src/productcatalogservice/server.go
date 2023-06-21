@@ -124,22 +124,22 @@ func main() {
 		}
 	}()
 
+	// router := mux.NewRouter()
+	// router.HandleFunc("/products", CreateProductHandler()).Methods("POST")
+	// server := http.Server{
+	// 	Addr:    ":3550",
+	// 	Handler: router,
+	// }
+	// server.ListenAndServe()
+
 	if os.Getenv("PORT") != "" {
 		port = os.Getenv("PORT")
 	}
-
-	router := mux.NewRouter()
-	router.HandleFunc("/products", CreateProductHandler()).Methods("POST")
-	server := http.Server{
-		Addr:    ":3550",
-		Handler: router,
-	}
 	fmt.Println("Staring Product Catalog server on Port %s", port)
-	server.ListenAndServe()
 
 	log.Infof("starting grpc server at :%s", port)
 	run(port)
-	select {}
+	// select {}
 }
 
 func run(port string) string {
