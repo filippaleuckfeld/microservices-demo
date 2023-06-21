@@ -146,7 +146,7 @@ func run(port string) string {
 
 	svc := &productCatalog{}
 
-	//pb.RegisterProductCatalogServiceServer(srv, svc)
+	pb.RegisterProductCatalogServiceServer(srv, svc)
 	healthpb.RegisterHealthServer(srv, svc)
 	go srv.Serve(l)
 	return l.Addr().String()
