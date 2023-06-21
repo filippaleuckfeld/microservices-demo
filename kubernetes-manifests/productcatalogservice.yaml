@@ -77,4 +77,4 @@ spec:
     targetPort: 3550
   - name: rest-api
     port: 3560
-    targetPort: 3650
+    targetPort: 3660
