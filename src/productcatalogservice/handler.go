@@ -73,6 +73,7 @@ func CreateProductHandler() http.HandlerFunc {
 		err = ioutil.WriteFile("products.json", updatedData, os.ModePerm)
 		if err != nil {
 			fmt.Println("Could not write to file")
+			fmt.Println(err)
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
 		}
