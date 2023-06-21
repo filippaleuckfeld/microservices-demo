@@ -36,7 +36,7 @@ func TestServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer conn.Close()
-	client := pb.NewProductCatalogServiceClient(conn)
+	//client := pb.NewProductCatalogServiceClient(conn)
 	res, err := client.ListProducts(ctx, &pb.Empty{})
 	if err != nil {
 		t.Fatal(err)
