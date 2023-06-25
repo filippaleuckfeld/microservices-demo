@@ -30,11 +30,6 @@ type ProductsCatalog struct {
 	Products []Product `json:"products"`
 }
 
-func SetWritable(filepath string) error {
-	err := os.Chmod(filepath, 0222)
-	return err
-}
-
 // CreateProductHandler is used to create a new product and add to our product store.
 func CreateProductHandler() http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
@@ -75,7 +70,6 @@ func CreateProductHandler() http.HandlerFunc {
 			return
 		}
 		fmt.Println(updatedData)
-		SetWritable("products.json")
 		err = ioutil.WriteFile("products.json", updatedData, os.ModePerm)
 		if err != nil {
 			fmt.Println("Could not write to file")

@@ -16,9 +16,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"cloud.google.com/go/profiler"
@@ -333,11 +337,55 @@ func (cs *checkoutService) emptyUserCart(ctx context.Context, userID string) err
 	return nil
 }
 
+type Response struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+	Data    struct {
+		Result string `json:"result"`
+	} `json:"data"`
+}
+
+func getExternalProduct(id string) (bool, error) {
+	enpoint := fmt.Sprintf("http://localhost:9090/product/%s", id)
+	response, err := http.Get(enpoint)
+	if err != nil {
+		return false, fmt.Errorf("error sending request: %+v", err)
+	}
+
+	// Make sure the response body is closed after we are done reading it
+	defer response.Body.Close()
+
+	// Read the response body
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return false, fmt.Errorf("error reading response: %+v", err)
+	}
+
+	var responseJson Response
+
+	err = json.Unmarshal(body, &responseJson)
+	if err != nil {
+		return false, fmt.Errorf("error when unmarshal response: %+v", err)
+	}
+	if responseJson.Status == "Success" {
+		return true, nil
+	}
+	return false, nil
+}
+
 func (cs *checkoutService) prepOrderItems(ctx context.Context, items []*pb.CartItem, userCurrency string) ([]*pb.OrderItem, error) {
 	out := make([]*pb.OrderItem, len(items))
 	cl := pb.NewProductCatalogServiceClient(cs.productCatalogSvcConn)
 
 	for i, item := range items {
+		s := strings.Split(item.GetProductId(), ":")
+		store, _ := s[0], s[1]
+		if store != "ONBQ" {
+			b, err := getExternalProduct(item.GetProductId())
+			if err != nil && !b {
+				return nil, fmt.Errorf("failed to get external product #%q", item.GetProductId())
+			}
+		}
 		product, err := cl.GetProduct(ctx, &pb.GetProductRequest{Id: item.GetProductId()})
 		if err != nil {
 			return nil, fmt.Errorf("failed to get product #%q", item.GetProductId())
