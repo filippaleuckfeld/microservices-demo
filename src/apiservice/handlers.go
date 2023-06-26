@@ -63,6 +63,7 @@ type Response struct {
 
 func externalProductHandler(w http.ResponseWriter, r *http.Request) {
 	shops, err := getShopMap()
+	fmt.Println(shops)
 	if err != nil {
 		fmt.Println("Error getting shop map:", err)
 		return
@@ -70,6 +71,7 @@ func externalProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	//log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
 	id := mux.Vars(r)["id"]
+	fmt.Println(id)
 	if id == "" {
 		//ERROR HANDLING
 		fmt.Println("Wrong path", err)
@@ -78,6 +80,7 @@ func externalProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if a shop exists among collaborators
 	_, exists := shops[id]
+	fmt.Println("Exists?", exists)
 	if exists {
 		// Example request
 		// client := &http.Client{}
