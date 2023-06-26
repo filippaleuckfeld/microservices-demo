@@ -347,8 +347,10 @@ type Response struct {
 
 func getExternalProduct(id string) (bool, error) {
 	enpoint := fmt.Sprintf("http://localhost:9090/product/%s", id)
+	fmt.Println(enpoint)
 	response, err := http.Get(enpoint)
 	if err != nil {
+		fmt.Println(err)
 		return false, fmt.Errorf("error sending request: %+v", err)
 	}
 
@@ -358,6 +360,7 @@ func getExternalProduct(id string) (bool, error) {
 	// Read the response body
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
+		fmt.Println(err)
 		return false, fmt.Errorf("error reading response: %+v", err)
 	}
 
@@ -365,6 +368,7 @@ func getExternalProduct(id string) (bool, error) {
 
 	err = json.Unmarshal(body, &responseJson)
 	if err != nil {
+		fmt.Println(err)
 		return false, fmt.Errorf("error when unmarshal response: %+v", err)
 	}
 	if responseJson.Status == "Success" {
@@ -379,9 +383,12 @@ func (cs *checkoutService) prepOrderItems(ctx context.Context, items []*pb.CartI
 
 	for i, item := range items {
 		s := strings.Split(item.GetProductId(), ":")
+		fmt.Println(s)
 		store, _ := s[0], s[1]
 		if store != "ONBQ" {
 			b, err := getExternalProduct(item.GetProductId())
+			fmt.Println(b)
+			fmt.Println(err)
 			if err != nil && !b {
 				return nil, fmt.Errorf("failed to get external product #%q", item.GetProductId())
 			}
