@@ -31,6 +31,10 @@ type Shop struct {
 	ID   string `json:"id"`
 }
 
+type ShopsData struct {
+	Shops []Shop `json:"shops"`
+}
+
 func getShopMap() (map[string]Shop, error) {
 	curdir, err := os.Getwd()
 	if err != nil {
@@ -44,16 +48,16 @@ func getShopMap() (map[string]Shop, error) {
 		return nil, err
 	}
 
-	var shopsList []Shop
+	var data ShopsData
 	// Unmarshal the JSON data into the ShopData struct
-	err = json.Unmarshal(fileBytes, &shopsList)
+	err = json.Unmarshal(fileBytes, &data)
 	if err != nil {
 		fmt.Println("Error unmarshaling JSON:", err)
 		return nil, err
 	}
 
 	shopMap := make(map[string]Shop)
-	for _, value := range shopsList {
+	for _, value := range data.Shops {
 		shopMap[value.ID] = value
 	}
 
