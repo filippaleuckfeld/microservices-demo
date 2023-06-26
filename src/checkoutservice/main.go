@@ -346,7 +346,8 @@ type Response struct {
 }
 
 func getExternalProduct(id string) (bool, error) {
-	enpoint := fmt.Sprintf("http://localhost:9090/product/%s", id)
+	//my-service.default.svc.cluster.local
+	enpoint := fmt.Sprintf("http://apiservice.default.svc.cluster.local:9090/product/%s", id)
 	fmt.Println(enpoint)
 	response, err := http.Get(enpoint)
 	if err != nil {
