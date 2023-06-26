@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -84,13 +85,15 @@ func externalProductHandler(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	fmt.Println(id)
 	if id == "" {
-		//ERROR HANDLING
 		fmt.Println("Wrong path", err)
 		return
 	}
 
+	s := strings.Split(id, ":")
+	store, _ := s[0], s[1]
+
 	// Check if a shop exists among collaborators
-	_, exists := shops[id]
+	_, exists := shops[store]
 	fmt.Println("Exists?", exists)
 	if exists {
 		// Example request
