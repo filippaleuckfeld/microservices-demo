@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -31,6 +32,12 @@ type Shop struct {
 }
 
 func getShopMap() (map[string]Shop, error) {
+	curdir, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error getting current dir:", err)
+		return nil, err
+	}
+	fmt.Println(curdir)
 	fileBytes, err := ioutil.ReadFile("shops.json")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
