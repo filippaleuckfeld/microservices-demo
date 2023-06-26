@@ -38,7 +38,7 @@ func getShopMap() (map[string]Shop, error) {
 		return nil, err
 	}
 	fmt.Println(curdir)
-	fileBytes, err := ioutil.ReadFile("./apiservice/shops.json")
+	fileBytes, err := ioutil.ReadFile("shops.json")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return nil, err
