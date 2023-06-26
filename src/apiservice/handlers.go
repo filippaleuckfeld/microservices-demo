@@ -136,3 +136,58 @@ func externalProductHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+type ExternalMoney struct {
+	CurrencyCode string
+	Units        int64
+	Nanos        int32
+}
+
+type ExternalAddress struct {
+	StreetAddress string `json:"street_address"`
+	City          string `json:"city"`
+	State         string `json:"state"`
+	Country       string `json:"country"`
+	ZipCode       int32  `json:"zip_code"`
+}
+
+type ExternalOrderItem struct {
+	ID   string        `json:"item"`
+	Cost ExternalMoney `json:"cost"`
+}
+
+type ExternalOrderData struct {
+	OrderId            string              `json:"order_id"`
+	ShippingTrackingId string              `json:"shipping_tracking_id"`
+	ShippingCost       ExternalMoney       `json:"shipping_cost"`
+	ShippingAddress    ExternalAddress     `json:"shipping_address"`
+	Items              []ExternalOrderItem `json:"items"`
+}
+
+func postExternalOrder(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		fmt.Fprintf(w, "Invalid request method. Only POST requests are allowed.")
+		return
+	}
+
+	// Read the request body
+	// Assuming the request body is in JSON format
+	// You can replace this with your own logic to parse the request body
+	// For example, using the encoding/json package
+	var requestBody ExternalOrderData
+	err := json.NewDecoder(r.Body).Decode(&requestBody)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "Error parsing request body: %v", err)
+		return
+	}
+	fmt.Println(requestBody)
+
+	// Process the request and generate a response
+	response := "Received a POST request"
+
+	// Write the response
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, response)
+}
