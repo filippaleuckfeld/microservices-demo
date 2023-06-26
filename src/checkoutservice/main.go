@@ -347,7 +347,7 @@ type Response struct {
 
 func getExternalProduct(id string) (bool, error) {
 	//my-service.default.svc.cluster.local
-	enpoint := fmt.Sprintf("http://apiservice.default.svc.cluster.local:9090/product/%s", id)
+	enpoint := fmt.Sprintf("http://34.88.158.12:9090/product/%s", id)
 	fmt.Println(enpoint)
 	response, err := http.Get(enpoint)
 	if err != nil {
